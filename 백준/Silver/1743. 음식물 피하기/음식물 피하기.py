@@ -1,51 +1,46 @@
-import sys
-sys.setrecursionlimit(10**7)
-# 통로의 세로 길이 N | 가로 길이 M | 음식물 쓰레기의 개수 K
 N, M, K = map(int, input().split())
 
-graph = [[0] * (M+1) for _ in range(N+1)]
-visited = [[False] * (M+1) for _ in range(N+1)]
-global size
-size = 0
-res = 0
+# 0으로 초기화 한 배열
+arr = [[0]*M for _ in range(N)]
+visited = [[0]*M for _ in range(N)]
 
-# 1,1부터 다 돌아!! 그 노드에서 쓰레기 발견되면 인접한 곳에 쓰레기 있는지 확인
-# 쓰레기 있으면 쓰레기 크기 증가시키고 방문 처리
+# 상하좌우
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
+# 음식물 최대 값
+max_num = 0
 
-for k in range(K): 
+# 배열에 음쓰 좌표 입력 받아서 1로 수정
+for k in range(K):
     a, b = map(int, input().split())
-    graph[a][b] = 1
+    a -= 1
+    b -= 1
+    arr[a][b] = 1
 
+def dfs(si, sj):
+    f_num = 0
 
-def dfs(x, y):
-    global size
+    visited[si][sj] = 1
+    stack = [[si, sj]]
+    while stack:
+        ci, cj = stack.pop() # 현재 노드
+        f_num += 1
+        # 상하좌우에 1인 노드 있는지 확인
+        for i in range(4):
+            ni = ci + dx[i]
+            nj = cj + dy[i]
+            if 0 <= ni < N and 0 <= nj < M:
+                if arr[ni][nj] == 1 and visited[ni][nj] == 0:
+                    stack.append([ni, nj])
+                    visited[ni][nj] = 1
+    global max_num
+    max_num = max(max_num, f_num)
 
-    # 범위를 벗어나면 False 반환
-    if x < 0 or x > N or y < 0 or y > M:
-        return False
+for i in range(N):
+    for j in range(M):
+        if arr[i][j] == 1:
+            if visited[i][j] == 0:
+                dfs(i, j)
 
-    # 이미 방문했거나 쓰레기가 없는 경우
-    if visited[x][y] or graph[x][y] == 0:
-        return False
-    
-    # 쓰레기가 발견되면 처리
-    size += 1
-    visited[x][y] = True
-
-    # 상, 하, 좌, 우로 연결된 노드 탐색
-    dfs(x-1, y)
-    dfs(x+1, y)
-    dfs(x, y-1)
-    dfs(x, y+1)
-
-    return True
-
-# N x M 배열 하나씩 돌면서 연결된 노드 있느느지 확인했으면 (True) res에 담고 최대값 비교
-for i in range(N+1):
-    for j in range(M+1):
-        if dfs(i, j) == True:
-            res = max(size, res)
-            size = 0 # 다시 0으로 초기화
-
-print(res)
+print(max_num)
