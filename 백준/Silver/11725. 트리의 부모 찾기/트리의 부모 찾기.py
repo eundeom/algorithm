@@ -4,7 +4,7 @@ N = int(input()) # 7
 
 # 트리
 graph = [[] for _ in range(N+1)] # 1 ~ 7
-visited = [[0,0] for _ in range(N+1)] # 방문, 부모노드 저장
+visited = [0 for _ in range(N+1)] # 방문, 부모노드 저장
 
 for i in range(N-1):
     # 트리 입력받기
@@ -14,20 +14,17 @@ for i in range(N-1):
 
 # dfs 돌면서 연결된 노드 visited 할 때 부모노드(현재 노드도 같이 저장)
 def bfs(v):
-    visited[v][0] = 1
+    visited[v] = 1
     queue = deque([v])
     while queue:
         c = queue.popleft()
         # 현재 노드와 연결된 노드 queue에 넣기
         for i in graph[c]:
-            if visited[i][0] == 0: # 방문 안했으면 방문해서 queue에 넣기
+            if visited[i] == 0: # 방문 안했으면 방문해서 queue에 넣기
                 queue.append(i)
-                visited[i][0] = 1
                 # 부모노드 넣기
-                visited[i][1] = c
-
-# 배열 전체 다 돌아야 함..
+                visited[i] = c
 
 bfs(1)
 for i in range(2, N+1):
-    print(visited[i][1])
+    print(visited[i])
