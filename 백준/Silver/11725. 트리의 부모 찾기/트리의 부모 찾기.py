@@ -6,6 +6,8 @@ N = int(input()) # 7
 graph = [[] for _ in range(N+1)] # 1 ~ 7
 visited = [0 for _ in range(N+1)] # 방문, 부모노드 저장
 
+cnt = 0
+
 for i in range(N-1):
     # 트리 입력받기
     a, b = map(int, input().split())
@@ -22,8 +24,12 @@ def bfs(v):
         for i in graph[c]:
             if visited[i] == 0: # 방문 안했으면 방문해서 queue에 넣기
                 queue.append(i)
-                # 부모노드 넣기
-                visited[i] = c
+                visited[i] = c # 부모노드 넣기
+                
+                global cnt
+                cnt += 1
+                if cnt == (len(visited)-2):
+                    break
 
 bfs(1)
 for i in range(2, N+1):
