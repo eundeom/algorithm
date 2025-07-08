@@ -8,8 +8,9 @@
 -- ORDER BY user_id ASC, product_id DESC
 
 
--- 재구매 SQL : GROUP BY
+-- 재구매 SQL : GROUP BY 
 -- user id와 product id로 그룹 만듦 -> user id와 product id로 묶인 같은 컬럼 있으면 count
+-- COUNT(*) 뜻 : 그룹 안에 몇 개의 행이 있는지 세는 함수 -> 그룹 : 같은 (USER_ID, PRODUCT_ID)로 이루어짐
 SELECT USER_ID, PRODUCT_ID
 FROM ONLINE_SALE
 GROUP BY USER_ID, PRODUCT_ID 
