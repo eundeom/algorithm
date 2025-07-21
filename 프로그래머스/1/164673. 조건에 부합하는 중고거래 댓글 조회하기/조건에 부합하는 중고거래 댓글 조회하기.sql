@@ -1,0 +1,16 @@
+-- USED_GOODS_BOARD
+-- BOARD_ID, WRITER_ID, TITLE, CONTENTS, PRICE, CREATED_DATE, STATUS, VIEWS
+-- 게시글 ID, 작성자 ID, 게시글 제목, 게시글 내용, 가격, 작성일, 거래상태, 조회수
+
+-- USED_GOODS_REPLY
+-- REPLY_ID, BOARD_ID, WRITER_ID, CONTENTS, CREATED_DATE 
+-- 댓글 ID, 게시글 ID, 작성자 ID, 댓글 내용, 작성일
+
+-- 2022 10월에 작성된 게시글 제목, 게시글 ID, 댓글 ID, 댓글 작성자 ID, 댓글 내용, 댓글 작성일을 조회
+-- 댓글 작성일 기준 오름차순 정렬 / 댓글 작성일이 같으면 게시글 제목을 기준으로 오름차순 정렬
+
+SELECT b.TITLE, b.BOARD_ID, r.REPLY_ID, r.WRITER_ID, r.CONTENTS, TO_CHAR(r.CREATED_DATE, 'YYYY-MM-DD')
+FROM USED_GOODS_BOARD b
+JOIN USED_GOODS_REPLY r ON b.BOARD_ID = r.BOARD_ID
+WHERE b.CREATED_DATE BETWEEN TO_DATE('2022-10-01', 'YYYY-MM-DD') AND TO_DATE('2022-10-31', 'YYYY-MM-DD')
+ORDER BY r.CREATED_DATE ASC, b.TITLE ASC;
